@@ -1,11 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const exemploModel = require('../models/exemploModel')
+const dadosModel = require('../models/dadosModel')
 
 router.post('/', (req, res) => {
-    console.log(req.body)
-    exemploModel.find({'idArduino':{$eq: req.body.idArduino}})
+    dadosModel.find({'idArduino':{$eq: req.body.idArduino}})
     .exec()
     .then((result)=>{
         if(result == 0){
@@ -13,12 +12,14 @@ router.post('/', (req, res) => {
                idArduino: req.body.idArduino,
                temp: req.body.temp,
                hum: req.body.hum,
-        
             })
             newArduino.save()
             .then(result => {
                 console.log('Objeto criado')
-                res.json({msg: 'Objeto criado'})
+                res.json({
+                    msg: 'Objeto criado',
+                    data: result
+                })
             })
             .catch(error => {
                 console.log(error)

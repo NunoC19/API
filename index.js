@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config({ path: './private/.env' })
-//require('heroku').config({ path: '../Procfile' })
+
 
 const app = express()
 
@@ -12,7 +12,7 @@ app.use(express.json({ extended: false }))
 
 app.use('/create', require('./routes/createRoute'))
 app.use('/update', require('./routes/updateRoute'))
-app.use('/GetData', require('./routes/getDataRoute'))
+app.use('/getData', require('./routes/getDataRoute'))
 
 
 mongoose.connect(process.env.MONGOURI, 

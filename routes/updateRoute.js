@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const exemploModel = require('../models/exemploModel')
+const dadosModel = require('../models/dadosModel')
 
 router.post('/', (req, res) => {
-    exemploModel.findOne(
+    dadosModel.findOne(
         {'idArduino':{$eq: req.body.idArduino}})
     .exec()
     .then((result) =>{
@@ -13,10 +13,12 @@ router.post('/', (req, res) => {
                 msg: 'Objeto não encontrado',
             })
         }
-        else {
-            exemploModel.findOneAndUpdate(
+        else { 
+            now = new Date()
+            console.log(now)
+            dadosModel.findOneAndUpdate(   
                 {'idArduino':{$eq: req.body.idArduino}},
-                {$set: {'temp': req.body.temp, 'hum': req.body.hum}},
+                {$set: {temp: req.body.temp, hum: req.body.hum, updated_at: now}},
                 {new:true}
             )
             .then((obj)=>{
@@ -26,6 +28,7 @@ router.post('/', (req, res) => {
                 })
             })
             .catch(error => {
+                console.log(error)
                 res.json({
                     msg: 'Ocorreu um erro'
                 })
